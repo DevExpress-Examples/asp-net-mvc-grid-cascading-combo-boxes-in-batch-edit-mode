@@ -1,0 +1,17 @@
+@model List<E4425.Models.Customer>
+@Html.DevExpress().ComboBoxFor(item=>item.First().CityID ,settings =>
+{
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "ComboBoxCityPartial" };
+    
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Properties.TextField = "CityName";
+    settings.Properties.ValueField = "CityID";
+    settings.Properties.ValueType = typeof(int);
+    settings.ShowModelErrors = true;
+    settings.Properties.ValidationSettings.Display = Display.None;    
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.Properties.ClientSideEvents.BeginCallback = "CitiesCombo_BeginCallback";
+    settings.Properties.ClientSideEvents.EndCallback = "CitiesCombo_EndCallback";
+    settings.Properties.ClientSideEvents.LostFocus = "CitiesCombo_LostFocus";
+    settings.Properties.ClientSideEvents.KeyDown = "CitiesCombo_KeyDown";
+}).BindList(ViewData["cities"]).GetHtml()

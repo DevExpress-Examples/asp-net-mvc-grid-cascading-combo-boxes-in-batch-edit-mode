@@ -1,0 +1,73 @@
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "grid";
+    settings.KeyFieldName = "CustomerID";
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial" };
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(500);
+    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settings.SettingsEditing.ShowModelErrorsForEditors = true;
+    settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Home", Action = "GridViewEditPartial" };
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.ClientSideEvents.BatchEditEndEditing = "OnBatchEditEndEditing";
+    settings.ClientSideEvents.BatchEditStartEditing = "OnBatchEditStartEditing";
+    settings.ClientSideEvents.BatchEditRowValidating = "OnBatchEditRowValidating";
+    settings.ClientSideEvents.Init = "OnInit";
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    settings.Columns.Add("CustomerID").Visible = false;
+    settings.Columns.Add("CustomerName");
+    settings.SettingsEditing.ShowModelErrorsForEditors = true;
+    settings.Columns.Add(columnCountry =>
+    {
+        columnCountry.Caption = "Country";
+        columnCountry.FieldName = "CountryID";
+        columnCountry.ColumnType = MVCxGridViewColumnType.ComboBox;
+        ComboBoxProperties propertiesComboBox = columnCountry.PropertiesEdit as ComboBoxProperties;
+        propertiesComboBox.DataSource = E4425.Models.DataProvider.GetCountries();
+        propertiesComboBox.TextField = "CountryName";
+        propertiesComboBox.ValueField = "CountryID";
+        propertiesComboBox.ValueType = typeof(int);
+        propertiesComboBox.EnableSynchronization = DefaultBoolean.False;
+        propertiesComboBox.IncrementalFilteringMode = IncrementalFilteringMode.None;
+        propertiesComboBox.ClientSideEvents.SelectedIndexChanged = "CountriesCombo_SelectedIndexChanged";
+    });
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.None;
+    };
+    settings.Columns.Add(columnCity =>
+    {
+        columnCity.Caption = "City";
+        columnCity.FieldName = "CityID";
+
+        /*Display Mode*/
+        columnCity.ColumnType = MVCxGridViewColumnType.ComboBox;
+        ComboBoxProperties propertiesComboBox = columnCity.PropertiesEdit as ComboBoxProperties;
+        propertiesComboBox.DataSource = E4425.Models.DataProvider.GetCities();
+        propertiesComboBox.TextField = "CityName";
+        propertiesComboBox.ValueField = "CityID";
+        propertiesComboBox.ValueType = typeof(int);
+        /*Display Mode*/
+
+        /*Edit Mode*/
+        columnCity.SetEditItemTemplateContent(c =>
+        {
+            var countryID = c.Grid.GetRowValues(0, "CountryID");
+
+            var cityID = c.Grid.GetRowValues(0, c.Column.FieldName);
+            ViewData["CityID"] = cityID;
+
+            var cities = (cityID == null)
+                ? E4425.Models.DataProvider.GetCities()
+                : E4425.Models.DataProvider.GetCities((int)countryID);
+            ViewData["cities"] = cities;
+            Html.RenderPartial("ComboBoxCityPartial");
+        });
+        /*Edit Mode*/
+
+    });
+
+}).Bind(Model).GetHtml()
