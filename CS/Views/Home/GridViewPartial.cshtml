@@ -1,0 +1,34 @@
+@using E4425.Models;
+
+@(Html.DevExpress().GridView<Customer>(settings => {
+    settings.Name = "grid";
+    settings.KeyFields(c => c.CustomerId);
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(500);
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial" };
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Home", Action = "GridViewEditPartial" };
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+
+    settings.Columns.Add(c => c.CustomerId).Visible = false;
+    settings.Columns.Add(c => c.CustomerName);
+    settings.SettingsEditing.ShowModelErrorsForEditors = true;
+    settings.Columns.Add(c => c.CountryId, country => {
+        country.Caption = "Country";
+        country.EditorProperties().ComboBox(cs => cs.Assign(ComboBoxPropertiesProvider.Current.CountryComboBoxProperties));
+    });
+    settings.Columns.Add(c => c.CityId, city => {
+        city.Caption = "City";
+        city.EditorProperties().ComboBox(cs => cs.Assign(ComboBoxPropertiesProvider.Current.CityComboBoxProperties));
+    });
+    settings.CellEditorInitialize = (s, e) => {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.None;
+    };
+    settings.ClientSideEvents.BatchEditStartEditing = "OnBatchEditStartEditing";
+
+    }).Bind(Model).GetHtml())

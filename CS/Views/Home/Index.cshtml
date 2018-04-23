@@ -1,0 +1,8 @@
+@{
+    ViewBag.Title = "GridView - How to implement cascading comboboxes in Batch Edit mode";  
+}
+<script src="@Url.Content("~/Scripts/CascadingComboBoxesBatchEdit.js")"></script>
+@using (Html.BeginForm())
+{
+    @Html.Partial("GridViewPartial")
+}
