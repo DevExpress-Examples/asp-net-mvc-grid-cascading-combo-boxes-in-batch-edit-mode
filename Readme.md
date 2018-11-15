@@ -1,3 +1,13 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [HomeController.cs](./CS/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/Controllers/HomeController.vb))
+* [Model.cs](./CS/Models/Model.cs) (VB: [Model.vb](./VB/Models/Model.vb))
+* [CascadingComboBoxesBatchEdit.js](./CS/Scripts/CascadingComboBoxesBatchEdit.js) (VB: [CascadingComboBoxesBatchEdit.js](./VB/Scripts/CascadingComboBoxesBatchEdit.js))
+* [ComboBoxCityPartial.cshtml](./CS/Views/Home/ComboBoxCityPartial.cshtml)
+* [GridViewPartial.cshtml](./CS/Views/Home/GridViewPartial.cshtml)
+* [Index.cshtml](./CS/Views/Home/Index.cshtml)
+<!-- default file list end -->
 # GridView - A simple implementation of cascading comboboxes in Batch Edit mode
 
 
