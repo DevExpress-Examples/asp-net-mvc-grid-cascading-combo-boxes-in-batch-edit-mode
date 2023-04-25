@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # Grid View for ASP.NET MVC - Implement cascading combo boxes in batch edit mode
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/t155879/)**
+**[[Run Online]](https://codecentral.devexpress.com/128549455/)**
 <!-- run online end -->
 
 This example demonstrates how to create combo box editors and configure the grid's cell edit functionality in batch mode.
